@@ -31,6 +31,9 @@ ALLOWED_HOSTS = ['YasmimRapos0.pythonanywhere.com', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'raiz.apps.RaizConfig',
+    'enquetes.apps.EnquetesConfig',
+    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
