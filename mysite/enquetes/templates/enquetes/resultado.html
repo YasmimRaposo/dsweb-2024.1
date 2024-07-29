@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Enquetes</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #C3BFBF;
+        color: #333;
+        font-size: 28px;
+    }
+    header {
+        width: 100%;
+        height: 147px;
+        background: #BC509C;
+        position: relative;
+        color: white;
+        font-size: 32px;
+        font-family: Inter, Arial, sans-serif;
+        font-weight: 800;
+        text-align: center;
+        line-height: 147px;
+    }
+    header img {
+        position: absolute;
+        right: 20px;
+        top: 25px;
+        width: 100px;
+        height: 97px;
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+        font-size: 28px;
+    }
+    p {
+        text-align: center;
+        font-size: 28px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px auto;
+        width: fit-content;
+    }
+    li {
+        margin: 10px 0;
+        font-size: 28px;
+        text-align: center;
+    }
+    hr {
+        margin: 20px 0;
+    }
+    a {
+        display: inline-block;
+        margin: 10px;
+        font-size: 28px;
+        color: #BC509C;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+    <header>
+        Bem-vindo à Aplicação de Enquetes da Aluna Yasmim Fernandes - DSWeb 2024.1
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Instituto_Federal_Marca_2015.svg/200px-Instituto_Federal_Marca_2015.svg.png" alt="Logo">
+    </header>
+    <h2>PARCIAL da Enquete #{{ enquete.id }}</h2>
+    <h2>{{ enquete.texto }}</h2>
+    <p><i>{{ enquete.data_pub }}</i></p>
+    <p>Quantidade de Votos por Alternativas:</p>
+    <ul>
+        {% for alt in enquete.alternativa_set.all %}
+            <li>
+                {{ alt.texto }} == {{ alt.quant_votos }} voto{{ alt.quant_votos | pluralize }}
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <a href="{% url 'enquetes:votacao' enquete.id %}">Votar novamente?</a>
+    <a href="{% url 'enquetes:index' %}">Voltar</a>
+</body>
+</html>
