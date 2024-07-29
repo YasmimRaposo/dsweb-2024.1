@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Enquetes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #C3BFBF;
+            color: #333;
+            font-size: 28px;
+        }
+        header {
+            background-color: #BC509C;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header p {
+            margin: 10px 0 0;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+        }
+        p {
+            text-align: center;
+            font-size: 28px;
+            margin: 0 0 20px 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            background-color: #BC509C;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #a94d7a;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #BC509C;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            form {
+                padding: 10px;
+                width: 100%;
+            }
+            input[type="submit"] {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Aplicação de Enquetes da aluna Yasmim Fernandes</h1>
+    </header>
+    <h2>Enquete #{{ enquete.id }}</h2>
+    <h2>{{ enquete.texto }}</h2>
+    <p><i>{{ enquete.data_pub }}</i></p>
+    {% if error %}
+        <p class="error">Erro: {{ error }}</p>
+    {% endif %}
+    <p>Selecione a Alternativa desejada:</p>
+    <form action="{% url 'enquetes:votacao' enquete.id %}" method="post">
+        {% csrf_token %}
+        <ul>
+            {% for alt in enquete.alternativa_set.all %}
+                <li>
+                    <input type="radio" name="escolha" value="{{ alt.id }}" id="alt{{ forloop.counter }}" />
+                    <label for="alt{{ forloop.counter }}">
+                        {{ alt.texto }}
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Votar">
+    </form>
+    <hr>
+    <a href="{% url 'enquetes:index' %}" class="back-link">Voltar para a lista de enquetes</a>
+</body>
+</html>
